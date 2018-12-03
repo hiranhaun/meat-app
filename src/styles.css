@@ -275,3 +275,7 @@ body {
   opacity: 0;
   max-height: 0px;
 }
+
+.iconLogin {
+  top: 20px !important;
+}
