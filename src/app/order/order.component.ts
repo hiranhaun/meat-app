@@ -35,15 +35,32 @@ export class OrderComponent implements OnInit {
               private loginService: LoginService) { }
 
   ngOnInit() {
+    const isLoggedIn = this.loginService.isLoggedIn();
+
     this.orderForm = this.formBuilder.group({
-      name: this.formBuilder.control('', [Validators.required, Validators.minLength(5)]),
-      email: this.formBuilder.control('', [Validators.required, Validators.pattern(this.emailPattern)]),
-      emailConfirmation: this.formBuilder.control('', [Validators.required, Validators.pattern(this.emailPattern)]),
+      name: this.formBuilder.control(''),
+      email: this.formBuilder.control(''),
+      emailConfirmation: this.formBuilder.control(''),
       address: this.formBuilder.control('', [Validators.required, Validators.minLength(5)]),
       number: this.formBuilder.control('', [Validators.required, Validators.pattern(this.numberPattern)]),
       optionalAdress: this.formBuilder.control(''),
       paymentOption: this.formBuilder.control('', [Validators.required])
     }, {validator: OrderComponent.equalsTo});
+
+    const group: AbstractControl = this.orderForm;
+    const name = group.get('name');
+    const email = group.get('email');
+    const emailConfirmation = group.get('emailConfirmation');
+
+    if (!isLoggedIn) {
+      name.setValidators([Validators.required, Validators.minLength(5)]);
+      email.setValidators([Validators.required, Validators.pattern(this.emailPattern)]);
+      emailConfirmation.setValidators([Validators.required, Validators.pattern(this.emailPattern)]);
+    } else {
+      name.setValue(this.loginService.user.name);
+      email.setValue(this.loginService.user.email);
+      emailConfirmation.setValue(this.loginService.user.email);
+    }
   }
 
   static equalsTo(group: AbstractControl): {[key: string]: boolean}  {
