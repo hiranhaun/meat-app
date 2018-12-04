@@ -14,6 +14,7 @@ export class OrderSummaryComponent implements OnInit {
   }
 
   rate() {
+    console.log('123');
     this.rated = true;
   }
 }

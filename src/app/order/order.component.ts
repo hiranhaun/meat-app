@@ -6,6 +6,7 @@ import { Order, OrderItem } from './order.model';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { LoginService } from 'app/security/login/login.service';
+import "rxjs/add/operator/do";
 
 @Component({
   selector: 'mt-order',
@@ -16,6 +17,8 @@ export class OrderComponent implements OnInit {
   orderForm: FormGroup;
 
   delivery: number = 8;
+
+  orderId: string;
 
   emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   numberPattern = /^[0-9]*$/;
@@ -80,10 +83,17 @@ export class OrderComponent implements OnInit {
       .map((item:CartItem)=>new OrderItem(item.quantity, item.menuItem.id));
     this.orderService
       .checkOrder(order)
+      .do( (orderId: string) => {
+        this.orderId = orderId;
+      })
       .subscribe((orderId: string) => {
         this.router.navigate(['/order-summary'])
         this.orderService.clear();
       });
+  }
+
+  isOrderCompleted(): boolean {
+    return this.orderId != undefined;
   }
 
 }
