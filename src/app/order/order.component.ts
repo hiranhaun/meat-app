@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { RadioOption } from 'app/shared/radio/radio-option.model';
 import { OrderService } from './order.service';
 import { CartItem } from 'app/restaurant-detail/shopping-cart/cart-item.model';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Order, OrderItem } from './order.model';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { stringify } from '@angular/core/src/util';
+import { LoginService } from 'app/security/login/login.service';
 
 @Component({
   selector: 'mt-order',
@@ -29,7 +28,8 @@ export class OrderComponent implements OnInit {
 
   constructor(private orderService: OrderService, 
               private router: Router,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private loginService: LoginService) { }
 
   ngOnInit() {
     this.orderForm = this.formBuilder.group({
