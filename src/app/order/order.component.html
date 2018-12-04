@@ -21,16 +21,16 @@
           </div>
           <div class="col-sm-6 col-xs-12">
             <mt-input-container errorMessage="Campo obrigatório e com 5 caracteres" label="Nome">
-                <input type="text" class="form-control" formControlName="name" placeholder="Nome" autocomplete="off">
+                <input type="text" class="form-control" [attr.disabled]="isLoggedIn()" formControlName="name" placeholder="Nome" autocomplete="off">
             </mt-input-container>
           </div>          
           <div class="col-sm-3 col-xs-6">
             <mt-input-container errorMessage="E-mail inválido" label="E-mail">
-              <input type="text" class="form-control" formControlName="email" placeholder="E-mail" autocomplete="off">
+              <input type="text" class="form-control" [attr.disabled]="isLoggedIn()" formControlName="email" placeholder="E-mail" autocomplete="off">
             </mt-input-container>
           </div>
           <div class="col-sm-3 col-xs-6">
-            <mt-input-container errorMessage="E-mail inválido" label="Confirmação do e-mail">
+            <mt-input-container errorMessage="E-mail inválido" label="Confirmação do e-mail" *ngIf="!isLoggedIn()">
               <input type="text" class="form-control" formControlName="emailConfirmation" placeholder="Confirmação do e-mail">
             </mt-input-container>
           </div>

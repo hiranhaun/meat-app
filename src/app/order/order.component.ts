@@ -35,8 +35,6 @@ export class OrderComponent implements OnInit {
               private loginService: LoginService) { }
 
   ngOnInit() {
-    const isLoggedIn = this.loginService.isLoggedIn();
-
     this.orderForm = this.formBuilder.group({
       name: this.formBuilder.control(''),
       email: this.formBuilder.control(''),
@@ -52,7 +50,7 @@ export class OrderComponent implements OnInit {
     const email = group.get('email');
     const emailConfirmation = group.get('emailConfirmation');
 
-    if (!isLoggedIn) {
+    if (!this.isLoggedIn()) {
       name.setValidators([Validators.required, Validators.minLength(5)]);
       email.setValidators([Validators.required, Validators.pattern(this.emailPattern)]);
       emailConfirmation.setValidators([Validators.required, Validators.pattern(this.emailPattern)]);
@@ -113,4 +111,7 @@ export class OrderComponent implements OnInit {
     return this.orderId != undefined;
   }
 
+  isLoggedIn(): boolean {
+    return this.loginService.isLoggedIn();
+  }
 }
